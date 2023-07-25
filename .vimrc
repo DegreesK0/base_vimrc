@@ -60,7 +60,7 @@ set showbreak=>\ \ \
 
 
 "Set your theme or colorscheme
-colorscheme desert
+colorscheme molokai
 
 
 "Wild Menu
@@ -75,6 +75,17 @@ set wildmode=list:longest
 set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 
 
+" #### New ####
+" Use to auto close brackets
+inoremap ( ()<Left>
+inoremap [ []<Left>
+inoremap { {}<Left>
+
+" Create the space in between curly brackets
+inoremap <expr> <CR> search('{\%#}', 'n') ? "\<CR>\<CR>\<Up>\<C-f>" : "\<CR>"
+
+
+
 " PLUGINS ---------------------------------------------------------------- {{{
 
 " Plugin code goes here.
@@ -86,7 +97,9 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'preservim/nerdtree'
 
-  Plug 'JuanDAC/betty-ale-vim'|       "Program
+  Plug 'JuanDAC/betty-ale-vim'       "Program
+
+  Plug 'jszakmeister/vim-togglecursor'
 
 
 call plug#end()
