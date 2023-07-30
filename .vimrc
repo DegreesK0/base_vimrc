@@ -27,7 +27,7 @@ set cursorline
 "set cursorcolumn
 
 " Do not save backup files.
-set nobackup
+"set nobackup
 
 " Do not let cursor scroll below or N number of lines when scrolling
 set scrolloff=10
@@ -76,15 +76,24 @@ set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 
 
 " #### New ####
-" Use to auto close brackets
+" Use to auto close brackets and quotes
 inoremap ( ()<Left>
 inoremap [ []<Left>
 inoremap { {}<Left>
+inoremap ' ''<Left>
+inoremap " ""<Left>
 
 " Create the space in between curly brackets
 inoremap <expr> <CR> search('{\%#}', 'n') ? "\<CR>\<CR>\<Up>\<C-f>" : "\<CR>"
 
+" Cause screen splits to happen below
+set splitbelow
 
+" Save undo history and allow undos when a file is closed
+set undofile "creates the undofile beside the files. Will need an undodir to keep things clean
+
+" Copy to system register * clipboard
+set clipboard=unnamedplus
 
 " PLUGINS ---------------------------------------------------------------- {{{
 
@@ -93,14 +102,13 @@ inoremap <expr> <CR> search('{\%#}', 'n') ? "\<CR>\<CR>\<Up>\<C-f>" : "\<CR>"
 call plug#begin('~/.vim/plugged')
 
 
-  Plug 'dense-analysis/ale'
+  Plug 'dense-analysis/ale' "ALE linter
 
-  Plug 'preservim/nerdtree'
+  Plug 'bstevary/betty-in-vim' "Betty linter extension for ALE
 
-  Plug 'JuanDAC/betty-ale-vim'       "Program
+  Plug 'preservim/nerdtree' "NerdTree for navigation
 
-  Plug 'jszakmeister/vim-togglecursor'
-
+  Plug 'tpope/vim-commentary' "use gcc/gc to comment a line/block
 
 call plug#end()
 
