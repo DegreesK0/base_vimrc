@@ -17,11 +17,12 @@ syntax on	"Or syntax enable. Same thing
 " Add numbers to each line on the left-hand side.
 set number
 
-" Allow the mouse to be used
+" Allow the mouse to be used. Blocks copy and paste. Hold shift to be able to
+" copy and paste
 set mouse=a
 
 " Highlight cursor line underneath the cursor horizontally.
-set cursorline
+"set cursorline
 
 " Highlight cursor line underneath the cursor vertically
 "set cursorcolumn
@@ -29,9 +30,8 @@ set cursorline
 " Do not save backup files.
 "set nobackup
 
-" Do not let cursor scroll below or N number of lines when scrolling
+" Do not let cursor scroll below or above N number of lines when scrolling
 set scrolloff=10
-
 
 
 "Betty vim changes
@@ -57,10 +57,6 @@ set wrap
 set linebreak
 "note trailing space at end of next line
 set showbreak=>\ \ \
-
-
-"Set your theme or colorscheme
-colorscheme molokai
 
 
 "Wild Menu
@@ -89,11 +85,20 @@ inoremap <expr> <CR> search('{\%#}', 'n') ? "\<CR>\<CR>\<Up>\<C-f>" : "\<CR>"
 " Cause screen splits to happen below
 set splitbelow
 
+" Let's save undo info to undodir
+if !isdirectory($HOME."/.vim")
+    call mkdir($HOME."/.vim", "", 0770)
+endif
+if !isdirectory($HOME."/.vim/undo-dir")
+    call mkdir($HOME."/.vim/undo-dir", "", 0700)
+endif
+set undodir=~/.vim/undo-dir
+
 " Save undo history and allow undos when a file is closed
-set undofile "creates the undofile beside the files. Will need an undodir to keep things clean
+set undofile "creates the undofile beside the files.
 
 " Copy to system register * clipboard
-set clipboard=unnamedplus
+"set clipboard=unnamedplus
 
 " PLUGINS ---------------------------------------------------------------- {{{
 
@@ -108,13 +113,23 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'preservim/nerdtree' "NerdTree for navigation
 
-  Plug 'tpope/vim-commentary' "use gcc/gc to comment a line/block
+  Plug 'tpope/vim-commentary' "use gcc/gc to comment a line/selection
+
+  Plug 'itchyny/lightline.vim'
+
+  Plug 'drewtempelmeyer/palenight.vim'
+
+  Plug 'joshdick/onedark.vim'
+
+  Plug 'rafi/awesome-vim-colorschemes'
+
+  Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 
 call plug#end()
 
 let g:ale_linters = {'c':['betty-style', 'betty-doc', 'gcc']}
 
-" }}}
+" }}}z
 
 
 " MAPPINGS --------------------------------------------------------------- {{{
@@ -139,7 +154,6 @@ augroup END
 " }}}
 
 
-
 " STATUS LINE ------------------------------------------------------------ {{{
 
 " Status bar code goes here.
@@ -160,4 +174,34 @@ set statusline+=\ ascii:\ %b\ hex:\ 0x%B\ row:\ %l\ col:\ %c\ percent:\ %p%%
 set laststatus=2
 
 " }}}
+
+" lightline plugin edits:
+let g:lightline = {
+	\ 'colorscheme': 'rosepine',
+	\ }
+
+" Use a line cursor within insert mode and a block cursor everywhere else.
+"
+" Reference chart of values:
+"   Ps = 0  -> blinking block.
+"   Ps = 1  -> blinking block (default).
+"   Ps = 2  -> steady block.
+"   Ps = 3  -> blinking underline.
+"   Ps = 4  -> steady underline.
+"   Ps = 5  -> blinking bar (xterm).
+"   Ps = 6  -> steady bar (xterm).
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[2 q"
+
+
+"Set the background
+set background=dark
+
+"Set termguicolors for catpuccin
+set termguicolors
+
+"Set your theme or colorscheme
+colorscheme catppuccin_mocha
+
+
 
